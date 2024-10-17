@@ -136,6 +136,9 @@ input{
 :root{
   --primary-color:#5526FF;
   --white-color:#ffffff;
+  --black-color:#0D1116;
+
+  --primary-bgColor:#F1F0F3;
   }
 `;
 

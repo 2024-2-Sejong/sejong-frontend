@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Logo from "./components/Logo";
-import MainRank from "./components/MainRank";
-import Header from "./components/Header";
+import Logo from "../components/Logo";
+import MainRank from "../components/MainRank";
+import Header from "../components/Header";
 
 // 전체 컨테이너
 const Container = styled.div`
@@ -145,7 +145,7 @@ const LinearCircle = styled.div`
 export default function Home() {
   return (
     <>
-      <Header />
+      <Header color="#FFFFFF" iconColor="#FFFFFF" />
       <Container>
         {/* 배경 도형들 */}
         <BackgroundShape style={{ top: "-20px", right: "250px" }} />
@@ -208,7 +208,7 @@ export default function Home() {
           </Heading>
 
           {/* 로고 부분 */}
-          <Logo width="158" height="62" />
+          <Logo width="158" height="62" iconColor="#FFFFFF" />
           <Button>스터디 시작하기</Button>
         </CenterBox>
         <Line />

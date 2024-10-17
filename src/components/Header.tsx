@@ -11,41 +11,50 @@ const Wrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   z-index: 1;
-  background-color: rgba(13, 17, 22, 0.2);
   backdrop-filter: blur(10px);
 `;
 
-const Lists = styled.ul`
-  color: var(--white-color);
+const Lists = styled.ul<{ $textcolor: string }>`
+  color: ${(prop) => prop.$textcolor}; // Use $ prefix here
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 23px;
   margin-right: 6px;
+
   a:first-child {
     margin-right: 25px;
   }
+
   a:last-child {
     width: 64px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 0.5px solid #ffffff;
+    border: 0.5px solid ${(prop) => prop.$textcolor};
     border-radius: 4px;
   }
 `;
 
-export default function Header() {
+export default function Header({
+  color,
+  iconColor,
+}: {
+  color: string;
+  iconColor: string;
+}) {
   return (
     <Wrapper>
-      <Link to={""}>
-        <Logo width="45" height="16" />
+      <Link to={"/"}>
+        <Logo width="45" height="16" iconColor={iconColor} />
       </Link>
-      <Lists>
-        <Link to={""}>스터디룸</Link>
-        <Link to={""}>로그인</Link>
-        <Link to={""}>회원가입</Link>
+      <Lists $textcolor={color}>
+        {" "}
+        {/* Use $ prefix here */}
+        <Link to={"/study"}>스터디룸</Link>
+        <Link to={"/user/login"}>로그인</Link>
+        <Link to={"/user/join"}>회원가입</Link>
       </Lists>
     </Wrapper>
   );
