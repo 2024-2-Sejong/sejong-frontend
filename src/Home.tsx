@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./components/Logo";
 import MainRank from "./components/MainRank";
+import Header from "./components/Header";
 
 // 전체 컨테이너
 const Container = styled.div`
@@ -48,7 +49,7 @@ const BackgroundTriangle = styled.svg`
 const BackgroundHalfCircle = styled.svg`
   position: absolute;
   z-index: 0;
-  top: 500px;
+  top: 400px;
   left: 200px;
 `;
 // 텍스트 스타일
@@ -57,9 +58,13 @@ const Heading = styled.h1`
   color: var(--white-color);
   font-weight: 800;
   margin-bottom: 86px;
+  line-height: 45px;
+  letter-spacing: 2px;
   span {
     font-weight: 800;
     color: var(--primary-color);
+    line-height: 45px;
+    letter-spacing: 2px;
   }
 `;
 const SubHeading = styled.h2`
@@ -116,9 +121,10 @@ const LinearCircle = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const App = () => {
+export default function Home() {
   return (
     <>
+      <Header />
       <Container>
         {/* 배경 도형들 */}
         <BackgroundShape style={{ top: "-20px", right: "250px" }} />
@@ -142,8 +148,8 @@ const App = () => {
               y2="350.074"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#5526FF" />
-              <stop offset="1" stop-color="#1A0D4B" />
+              <stop stopColor="#5526FF" />
+              <stop offset="1" stopColor="#1A0D4B" />
             </linearGradient>
           </defs>
         </BackgroundTriangle>
@@ -167,8 +173,8 @@ const App = () => {
               y2="332.395"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#5526FF" />
-              <stop offset="1" stop-color="#1A0D4B" />
+              <stop stopColor="#5526FF" />
+              <stop offset="1" stopColor="#1A0D4B" />
             </linearGradient>
           </defs>
         </BackgroundHalfCircle>
@@ -181,7 +187,7 @@ const App = () => {
           </Heading>
 
           {/* 로고 부분 */}
-          <Logo />
+          <Logo width="158" height="62" />
           <Button>스터디 시작하기</Button>
         </CenterBox>
         <Line />
@@ -192,6 +198,4 @@ const App = () => {
       <MainRank />
     </>
   );
-};
-
-export default App;
+}

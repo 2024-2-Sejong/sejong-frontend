@@ -10,7 +10,8 @@ import SUITSemiBold from "./fonts/SUIT-SemiBold.woff2";
 import SUITBold from "./fonts/SUIT-Bold.woff2";
 import SUITExtraBold from "./fonts/SUIT-ExtraBold.woff2";
 import SUITHeavy from "./fonts/SUIT-Heavy.woff2";
-import App from "./App";
+import { RouterProvider } from "react-router-dom";
+import router from "./Route";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -141,6 +142,6 @@ input{
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GlobalStyle />
-    <App />
+    <RouterProvider router={router} />
   </StrictMode>
 );
