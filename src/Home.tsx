@@ -13,7 +13,6 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
 `;
-// 중앙 박스 스타일
 const CenterBox = styled.div`
   width: 800px;
   margin-top: 133px;
@@ -21,14 +20,36 @@ const CenterBox = styled.div`
   border-radius: 20px;
   text-align: center;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
-
   z-index: 1;
   display: flex;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.1);
   flex-direction: column;
   align-items: center;
+  position: relative;
+
+  /* 내부 컨텐츠를 위한 상대적 위치 */
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px; /* 기존 border-radius 유지 */
+    padding: 1px; /* 보더 크기만큼 패딩 추가 */
+    background: linear-gradient(180deg, #7c7c7c, #ffffff1a);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; /* 패딩 적용 */
+    mask-composite: exclude; /* XOR으로 내부가 비게 만듦 */
+    z-index: -1;
+  }
 `;
+
 // 배경 도형 스타일
 const BackgroundShape = styled.div`
   position: absolute;
