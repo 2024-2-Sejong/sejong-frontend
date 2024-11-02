@@ -2,7 +2,10 @@ import styled from "styled-components";
 import RankCard from "./RankCard";
 
 const Wrapper = styled.div`
-  margin-top: 170px;
+  padding: 170px 0px;
+  background-color: var(--primary-bgColor);
+  z-index: 1;
+  position: relative;
 `;
 
 const TitleContainer = styled.div`
@@ -10,6 +13,7 @@ const TitleContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 73px;
 `;
 
 const Title = styled.h1`
@@ -43,9 +47,9 @@ export default function MainRank() {
         <SemiTitle>현재 순위권 스터디룸을 확인하세요!</SemiTitle>
       </TitleContainer>
       <RankCardContainer>
-        <RankCard />
-        <RankCard />
-        <RankCard />
+        <RankCard isFirst={false} roomName={"스터디룸 이름"} roomRank={2} />
+        <RankCard isFirst={true} roomName={"스터디룸 이름"} roomRank={1} />
+        <RankCard isFirst={false} roomName={"스터디룸 이름"} roomRank={3} />
       </RankCardContainer>
     </Wrapper>
   );

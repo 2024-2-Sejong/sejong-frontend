@@ -113,12 +113,24 @@ const Button = styled.button`
   }
 `;
 
+const DecoLine = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 733px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+`;
+
 const Line = styled.div`
   width: 1px;
-  height: 130px;
+  height: 270px;
   background-color: var(--white-color);
-  z-index: 1;
   margin-top: 40px;
+  z-index: 100;
 `;
 
 const LineCircle = styled.div`
@@ -127,6 +139,7 @@ const LineCircle = styled.div`
   border-radius: 50%;
   border: 1px solid var(--white-color);
   position: relative;
+  z-index: 70;
 `;
 
 const LinearCircle = styled.div`
@@ -136,9 +149,8 @@ const LinearCircle = styled.div`
   width: 37px;
   height: 37px;
   border-radius: 50%;
-  z-index: 1;
   background-color: var(--primary-color);
-  filter: blur(20px);
+  filter: blur(15px);
   transform: translate(-50%, -50%);
 `;
 
@@ -211,11 +223,13 @@ export default function Home() {
           <Logo width="158" height="62" iconColor="#FFFFFF" />
           <Button>스터디 시작하기</Button>
         </CenterBox>
+      </Container>
+      <DecoLine>
         <Line />
         <LineCircle>
           <LinearCircle />
         </LineCircle>
-      </Container>
+      </DecoLine>
       <MainRank />
     </>
   );
