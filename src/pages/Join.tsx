@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Survey from "../components/Survey";
 import { motion, AnimatePresence } from "framer-motion";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Wrapper = styled.div`
   background-color: var(--primary-bgColor);
@@ -36,13 +37,6 @@ const Form = styled.form`
   justify-content: center;
   align-items: center;
   gap: 16px;
-`;
-
-const ErrorMessage = styled.span`
-  color: #ff4d4f; /* 에러 메시지 색상 */
-  font-size: 12px;
-  margin-top: -8px; /* 입력 필드와의 간격 조절 */
-  align-self: flex-start; /* 왼쪽 정렬 */
 `;
 
 const TempDiv = styled.div`

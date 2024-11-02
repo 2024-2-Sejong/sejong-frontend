@@ -2,16 +2,17 @@ import { useState } from "react";
 import styled from "styled-components";
 import FormButton from "./FormButton";
 import { motion, AnimatePresence } from "framer-motion";
+import ErrorMessage from "./ErrorMessage";
 
 const Wrapper = styled.div`
-  width: 494px;
+  width: 600px;
   height: 500px;
   background-color: var(--white-color);
   border-radius: 8px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 54px 60px;
+  padding: 54px 60px 0px 60px;
 `;
 
 const SurveyTitle = styled.p`
@@ -51,14 +52,21 @@ export default function Survey() {
   const [responses, setResponses] = useState<number[]>(
     Array(questions.length).fill(0)
   );
+  const [error, setError] = useState("");
 
   const handleResponse = (value: number) => {
     const updatedResponses = [...responses];
     updatedResponses[currentQuestionIndex] = value;
     setResponses(updatedResponses);
+    setError(""); // 응답을 선택하면 에러 메시지 초기화
   };
 
   const handleNext = () => {
+    if (responses[currentQuestionIndex] === 0) {
+      setError("난이도를 선택해주세요."); // 선택하지 않았을 때 에러 메시지 설정
+      return; // 다음으로 넘어가지 않도록 조기 리턴
+    }
+
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -72,11 +80,11 @@ export default function Survey() {
       <SurveyTitle>체감하는 문제 난이도</SurveyTitle>
       <AnimatePresence mode="wait">
         <SurveyQuestion
-          key={currentQuestionIndex} // 각 질문에 고유한 key 부여
-          initial={{ opacity: 0, y: -20 }} // 애니메이션 시작 상태
-          animate={{ opacity: 1, y: 0 }} // 애니메이션 완료 상태
-          exit={{ opacity: 0, y: 20 }} // 애니메이션 종료 상태
-          transition={{ duration: 0.3 }} // 애니메이션 지속 시간
+          key={currentQuestionIndex}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.3 }}
         >
           {questions[currentQuestionIndex]}
         </SurveyQuestion>
@@ -92,6 +100,7 @@ export default function Survey() {
           </SurveyButton>
         ))}
       </SurveyButtons>
+      {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러 메시지 표시 */}
       <FormButton
         text={currentQuestionIndex < questions.length - 1 ? "다음" : "완료"}
         bgcolor="#5526FF"
