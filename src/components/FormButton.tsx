@@ -23,7 +23,7 @@ export default function FormButton({
   text: string;
   bgcolor: string;
   textcolor: string;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
   return (
     <ButtonStyle
