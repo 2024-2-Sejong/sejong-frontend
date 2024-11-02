@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import styled from "styled-components";
 
 const InputStyle = styled.input`
@@ -12,8 +13,12 @@ const InputStyle = styled.input`
   }
 `;
 
-export default function Input({
-  ...props
-}: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <InputStyle {...props} />;
-}
+// React.forwardRef를 사용하여 ref를 받을 수 있도록 설정
+const Input = forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>((props, ref) => {
+  return <InputStyle {...props} ref={ref} />;
+});
+
+export default Input;

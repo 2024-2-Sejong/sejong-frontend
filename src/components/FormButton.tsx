@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ButtonStyle = styled.div<{ $bgcolor: string; $textcolor: string }>`
+const ButtonStyle = styled.button<{ $bgcolor: string; $textcolor: string }>`
   width: 300px;
   height: 40px;
   border-radius: 4px;
@@ -18,13 +18,20 @@ export default function FormButton({
   text,
   bgcolor,
   textcolor,
+  onClick,
 }: {
   text: string;
   bgcolor: string;
   textcolor: string;
+  onClick: () => void;
 }) {
   return (
-    <ButtonStyle $bgcolor={bgcolor} $textcolor={textcolor}>
+    <ButtonStyle
+      $bgcolor={bgcolor}
+      $textcolor={textcolor}
+      type="submit"
+      onClick={onClick}
+    >
       {text}
     </ButtonStyle>
   );
