@@ -3,6 +3,8 @@ import Logo from "../components/Logo";
 import Input from "../components/Input";
 import FormButton from "../components/FormButton";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Wrapper = styled.div`
   background-color: var(--primary-bgColor);
@@ -54,15 +56,48 @@ const SignUpLink = styled(Link)`
   margin-top: 16px;
 `;
 
+interface LoginProps {
+  id: string;
+  password: string;
+}
+
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginProps>();
+
+  const handleFormSubmit = (data: LoginProps) => {
+    console.log(data);
+  };
+
   return (
     <Wrapper>
       <MainContainer>
         <Logo width="90" height="32" iconColor="#0D1116" />
         <Title>로그인</Title>
-        <Form>
-          <Input placeholder="아이디" type="text" />
-          <Input placeholder="비밀번호" type="password" />
+        <Form onSubmit={handleSubmit(handleFormSubmit)}>
+          <Input
+            placeholder="아이디"
+            type="text"
+            {...register("id", {
+              required: "아이디를 입력하세요",
+            })}
+          />
+          {errors.id && <ErrorMessage>{errors.id.message}</ErrorMessage>}{" "}
+          {/* 에러 메시지 표시 */}
+          <Input
+            placeholder="비밀번호"
+            type="password"
+            {...register("password", {
+              required: "비밀번호를 입력하세요",
+            })}
+          />
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}{" "}
+          {/* 에러 메시지 표시 */}
           <FindLinksContainer>
             <FindLink to={"/users/find/id"}>아이디 찾기</FindLink>
             <span>|</span>

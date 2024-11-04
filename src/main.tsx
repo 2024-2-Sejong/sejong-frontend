@@ -12,6 +12,8 @@ import SUITExtraBold from "./fonts/SUIT-ExtraBold.woff2";
 import SUITHeavy from "./fonts/SUIT-Heavy.woff2";
 import { RouterProvider } from "react-router-dom";
 import router from "./Route";
+import { HelmetProvider } from "react-helmet-async";
+import MetaTag from "./components/MetaTag";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -144,7 +146,10 @@ input{
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GlobalStyle />
-    <RouterProvider router={router} />
+    <HelmetProvider>
+      <GlobalStyle />
+      <MetaTag />
+      <RouterProvider router={router} />
+    </HelmetProvider>
   </StrictMode>
 );
