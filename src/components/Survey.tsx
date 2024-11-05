@@ -12,33 +12,63 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 54px 60px 0px 60px;
+  padding: 33px 60px 55px 60px;
+  position: relative;
+`;
+
+const SurveyPrevButton = styled.button`
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  color: rgba(13, 17, 22, 0.4);
+  left: 23px;
+  span {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+  }
+`;
+
+const SurveyIndex = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+  color: var(--primary-color);
+  margin-bottom: 24px;
 `;
 
 const SurveyTitle = styled.p`
-  margin-bottom: 90px;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 600;
+  line-height: 16px;
+  color: rgba(13, 17, 22, 0.6);
+  margin-bottom: 80px;
 `;
 
 const SurveyQuestion = styled(motion.p)`
-  margin-bottom: 50px;
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 80px;
 `;
 
 const SurveyButtons = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 90px;
+  margin-bottom: 64px;
+  span {
+    color: rgba(85, 38, 255, 1);
+  }
 `;
 
 const SurveyButton = styled.button<{ selected?: boolean }>`
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: ${({ selected }) => (selected ? "#5526FF" : "#d9d9d9")};
+  background-color: ${({ selected }) =>
+    selected ? "#5526FF" : "rgba(241, 240, 243, 1)"};
   color: white;
   font-size: 18px;
   cursor: pointer;
@@ -75,9 +105,40 @@ export default function Survey() {
     }
   };
 
+  const handlePrev = () => {
+    const updatedResponses = [...responses];
+    updatedResponses[currentQuestionIndex] = 0;
+    updatedResponses[currentQuestionIndex - 1] = 0;
+    setResponses(updatedResponses);
+    console.log(responses);
+
+    setCurrentQuestionIndex(currentQuestionIndex - 1);
+  };
+
   return (
     <Wrapper>
-      <SurveyTitle>체감하는 문제 난이도</SurveyTitle>
+      {currentQuestionIndex >= 1 ? (
+        <SurveyPrevButton onClick={handlePrev}>
+          <svg
+            width="10"
+            height="16"
+            viewBox="0 0 10 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 1L2.02976 6.4213C1.00027 7.22201 1.00027 8.77799 2.02976 9.5787L9 15"
+              stroke="#0D1116"
+              strokeOpacity="0.4"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+          <span>이전</span>
+        </SurveyPrevButton>
+      ) : null}
+      <SurveyIndex>{currentQuestionIndex + 1}/6</SurveyIndex>
+      <SurveyTitle>아래 문제의 체감 난이도를 선택해주세요</SurveyTitle>
       <AnimatePresence mode="wait">
         <SurveyQuestion
           key={currentQuestionIndex}
@@ -90,15 +151,15 @@ export default function Survey() {
         </SurveyQuestion>
       </AnimatePresence>
       <SurveyButtons>
+        <span>어렵다</span>
         {[1, 2, 3, 4, 5].map((value) => (
           <SurveyButton
             key={value}
             selected={responses[currentQuestionIndex] === value}
             onClick={() => handleResponse(value)}
-          >
-            {value}
-          </SurveyButton>
+          />
         ))}
+        <span>어렵지않다</span>
       </SurveyButtons>
       {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러 메시지 표시 */}
       <FormButton
@@ -106,6 +167,7 @@ export default function Survey() {
         bgcolor="#5526FF"
         textcolor="#FFFFFF"
         onClick={handleNext}
+        check={responses[currentQuestionIndex] === 0}
       />
     </Wrapper>
   );
