@@ -37,8 +37,9 @@ const SemiTitle = styled.h2`
 const RankCardContainer = styled.div`
   margin: 0 98px;
   display: flex;
+  gap: 100px;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 const MotionRankCard = styled(motion.div)``;
