@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Layout from "./components/Layout";
 import Join from "./pages/Join";
+import Study from "./pages/Study";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
         element: <Join />,
       },
     ],
+  },
+  {
+    path: "/study",
+    element: <Study />,
   },
 ]);
 

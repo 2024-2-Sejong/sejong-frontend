@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import roomLogoUrl from "../../public/roomLogo.png";
 
-const Wrapper = styled.div<{ isFirst: boolean }>`
+const Wrapper = styled.div<{ $isFirst: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,10 +10,10 @@ const Wrapper = styled.div<{ isFirst: boolean }>`
   border-radius: 20px;
   padding: 0px 10px;
   box-shadow: 0px 4px 20px 4px rgba(0, 0, 0, 0.1);
-  margin-top: ${(prop) => (prop.isFirst ? "0" : "54px")};
+  margin-top: ${(prop) => (prop.$isFirst ? "0" : "54px")};
 `;
 
-const CardTitleContainer = styled.div<{ isFirst: boolean }>`
+const CardTitleContainer = styled.div<{ $isFirst: boolean }>`
   width: 265px;
   height: 103px;
   margin-top: 2px;
@@ -25,7 +25,7 @@ const CardTitleContainer = styled.div<{ isFirst: boolean }>`
   justify-content: center;
   gap: 14px;
   background: ${(prop) =>
-    prop.isFirst
+    prop.$isFirst
       ? `linear-gradient(90deg, #9578FF 0%, #5526FF 50%, #2F119C 100%);
 `
       : "#0D1116"};
@@ -73,7 +73,7 @@ const Categories = styled.div`
   gap: 10px;
 `;
 
-const CategoryCircle = styled.div<{ isFirst: boolean }>`
+const CategoryCircle = styled.div<{ $isFirst: boolean }>`
   width: 88px;
   height: 32px;
   display: flex;
@@ -81,7 +81,7 @@ const CategoryCircle = styled.div<{ isFirst: boolean }>`
   align-items: center;
   border-radius: 100px;
   background-color: ${(props) =>
-    props.isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"};
+    props.$isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"};
   color: var(--white-color);
   font-family: SUIT;
   font-size: 12px;
@@ -101,8 +101,8 @@ export default function RankCard({
   roomRank,
 }: RankCardProps) {
   return (
-    <Wrapper isFirst={isFirst}>
-      <CardTitleContainer isFirst={isFirst}>
+    <Wrapper $isFirst={isFirst}>
+      <CardTitleContainer $isFirst={isFirst}>
         <RoomRank>{roomRank}위</RoomRank>
         <RoomName>{roomName}</RoomName>
       </CardTitleContainer>
@@ -125,8 +125,8 @@ export default function RankCard({
         <span>15명</span>
       </RoomPeopleInfo>
       <Categories>
-        <CategoryCircle isFirst={isFirst}>카테고리 1</CategoryCircle>
-        <CategoryCircle isFirst={isFirst}>카테고리 2</CategoryCircle>
+        <CategoryCircle $isFirst={isFirst}>카테고리 1</CategoryCircle>
+        <CategoryCircle $isFirst={isFirst}>카테고리 2</CategoryCircle>
       </Categories>
     </Wrapper>
   );

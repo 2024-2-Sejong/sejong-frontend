@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 
-const Wrapper = styled.header`
+const Wrapper = styled.header<{ $bgColor: string }>`
   width: 100vw;
   max-height: 56px;
   padding: 20px 34px;
@@ -12,6 +12,7 @@ const Wrapper = styled.header`
   align-items: center;
   z-index: 1;
   backdrop-filter: blur(10px);
+  background-color: ${(prop) => prop.$bgColor};
 `;
 
 const Lists = styled.ul<{ $textcolor: string }>`
@@ -37,15 +38,19 @@ const Lists = styled.ul<{ $textcolor: string }>`
   }
 `;
 
+interface HeaderProps {
+  color: string;
+  iconColor: string;
+  bgColor?: string;
+}
+
 export default function Header({
   color,
   iconColor,
-}: {
-  color: string;
-  iconColor: string;
-}) {
+  bgColor = "transparent",
+}: HeaderProps) {
   return (
-    <Wrapper>
+    <Wrapper $bgColor={bgColor}>
       <Link to={"/"}>
         <Logo width="45" height="16" iconColor={iconColor} />
       </Link>
