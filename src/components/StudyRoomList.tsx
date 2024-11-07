@@ -6,13 +6,17 @@ import CategoryIcon from "./CategoryIcon";
 const Wrapper = styled.div`
   width: 100%;
   height: 220px;
-  background: rgba(144, 144, 144, 0.2);
+  background-color: rgba(144, 144, 144, 0.2);
   border: 1px solid rgba(188, 188, 188, 1);
   border-radius: 20px;
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.1);
   padding: 14px 32px 14px 14px;
   display: flex;
   gap: 32px;
+  transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 const StudyRoomImg = styled.img`

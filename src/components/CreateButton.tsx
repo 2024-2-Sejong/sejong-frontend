@@ -17,6 +17,10 @@ const Wrapper = styled.button<WrapperProps>`
   font-size: 16px;
   font-weight: 700;
   line-height: 16px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #3419b3;
+  }
 `;
 
 interface CreateButtonProps {
