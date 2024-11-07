@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import roomLogoUrl from "../../public/roomLogo.png";
+import CategoryIcon from "./CategoryIcon";
 
 const Wrapper = styled.div<{ $isFirst: boolean }>`
   display: flex;
@@ -73,22 +74,6 @@ const Categories = styled.div`
   gap: 10px;
 `;
 
-const CategoryCircle = styled.div<{ $isFirst: boolean }>`
-  width: 88px;
-  height: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-  background-color: ${(props) =>
-    props.$isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"};
-  color: var(--white-color);
-  font-family: SUIT;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 12px;
-`;
-
 interface RankCardProps {
   isFirst: boolean;
   roomName: string;
@@ -125,8 +110,15 @@ export default function RankCard({
         <span>15명</span>
       </RoomPeopleInfo>
       <Categories>
-        <CategoryCircle $isFirst={isFirst}>카테고리 1</CategoryCircle>
-        <CategoryCircle $isFirst={isFirst}>카테고리 2</CategoryCircle>
+        <CategoryIcon
+          text="카테고리"
+          bgColor={isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"}
+        />
+
+        <CategoryIcon
+          text="카테고리"
+          bgColor={isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"}
+        />
       </Categories>
     </Wrapper>
   );

@@ -103,7 +103,12 @@ export default function Login() {
             <span>|</span>
             <FindLink to={"/users/find/password"}>비밀번호 찾기</FindLink>
           </FindLinksContainer>
-          <FormButton text="로그인" bgcolor="#5526FF" textcolor="#FFFFFF" />
+          <FormButton
+            text="로그인"
+            bgcolor="#5526FF"
+            textcolor="#FFFFFF"
+            check={false}
+          />
         </Form>
         <SignUpLink to={"/user/join"}>회원가입</SignUpLink>
       </MainContainer>
