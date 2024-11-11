@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import Header from "../components/Header";
 import CategoryIcon from "../components/CategoryIcon";
+import SubmitComponent from "../components/SubmitComponent";
 
-const StudyRoomContainer = styled.div`
+const StudyRoomContainer = styled.section`
   position: relative;
   width: 100%;
   height: 500px;
@@ -86,6 +87,25 @@ const StudyRoomRightheavyTitle = styled.div`
   color: var(--white-color);
 `;
 
+const TodayProblemContatiner = styled.section`
+  margin: 116px 0 140px 0;
+  padding: 0px 138px 0px 146px;
+  h2 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 30px;
+  }
+`;
+
+const TodayProblemMessage = styled.p`
+  margin-top: 24px;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--primary-color);
+`;
+
 export default function StudyRoom() {
   return (
     <>
@@ -141,6 +161,13 @@ export default function StudyRoom() {
           </InfoRightSection>
         </StudyRoomInfo>
       </StudyRoomContainer>
+      <TodayProblemContatiner>
+        <h2>오늘의 문제</h2>
+        <TodayProblemMessage>
+          오늘의 문제를 아직 풀지 않았어요!
+        </TodayProblemMessage>
+        <SubmitComponent></SubmitComponent>
+      </TodayProblemContatiner>
     </>
   );
 }
