@@ -106,6 +106,67 @@ const TodayProblemMessage = styled.p`
   color: var(--primary-color);
 `;
 
+const StudyRoomStatistics = styled.section`
+  display: grid;
+  grid-template-columns: 4fr 5.5fr;
+  margin-top: 140px;
+  padding: 0px 138px 0px 146px;
+  gap: 46px;
+`;
+
+const RankingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const StatisticsTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 20px;
+`;
+
+const Ranking = styled.ol`
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid var(--white-color);
+  width: 100%;
+  height: auto;
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.05);
+  li {
+    background-color: rgba(248, 247, 249, 1);
+    border-bottom: 1px solid var(--white-color);
+    padding: 35px 45px;
+    display: flex;
+    gap: 82px;
+  }
+  li:first-child {
+    background: linear-gradient(90deg, #9578ff 0%, #5526ff 50%, #2f119c 100%);
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+    span {
+      color: var(--white-color);
+      font-size: 20px;
+      font-weight: 800;
+    }
+  }
+
+  li:last-child {
+    border-bottom: none;
+    border-radius: 0 0 20px 20px;
+  }
+  span {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--primary-color);
+  }
+  span:last-child {
+    color: black;
+  }
+`;
+
 export default function StudyRoom() {
   return (
     <>
@@ -161,6 +222,8 @@ export default function StudyRoom() {
           </InfoRightSection>
         </StudyRoomInfo>
       </StudyRoomContainer>
+
+      {/* 코드 제출 섹션 시작*/}
       <TodayProblemContatiner>
         <h2>오늘의 문제</h2>
         <TodayProblemMessage>
@@ -168,6 +231,36 @@ export default function StudyRoom() {
         </TodayProblemMessage>
         <SubmitComponent></SubmitComponent>
       </TodayProblemContatiner>
+
+      {/* 스터디룸 통계 섹션 시작 */}
+      <StudyRoomStatistics>
+        <RankingContainer>
+          <StatisticsTitle>스터디원 랭킹</StatisticsTitle>
+          <Ranking>
+            <li>
+              <span>1위</span> <span>닉네임</span>
+            </li>
+            <li>
+              <span>2위</span> <span>닉네임</span>
+            </li>
+            <li>
+              <span>3위</span> <span>닉네임</span>
+            </li>
+            <li>
+              <span>4위</span> <span>닉네임</span>
+            </li>
+            <li>
+              <span>5위</span> <span>닉네임</span>
+            </li>
+            <li>
+              <span>6위</span> <span>닉네임</span>
+            </li>
+          </Ranking>
+        </RankingContainer>
+        <RankingContainer>
+          <StatisticsTitle>스터디원 랭킹</StatisticsTitle>
+        </RankingContainer>
+      </StudyRoomStatistics>
     </>
   );
 }

@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   padding: 112px 142px;
   display: flex;
   flex-direction: column;
+  background-clip: var(--primary-bgColor);
 `;
 
 const TitleContainer = styled.div`
