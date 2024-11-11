@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import CategoryIcon from "../components/CategoryIcon";
 import SubmitComponent from "../components/SubmitComponent";
+import Chart from "../components/Chart";
 
 const StudyRoomContainer = styled.section`
   position: relative;
@@ -257,8 +258,11 @@ export default function StudyRoom() {
             </li>
           </Ranking>
         </RankingContainer>
+
+        {/* 차트 */}
         <RankingContainer>
           <StatisticsTitle>스터디원 랭킹</StatisticsTitle>
+          <Chart />
         </RankingContainer>
       </StudyRoomStatistics>
     </>
