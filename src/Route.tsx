@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Layout from "./components/Layout";
 import Join from "./pages/Join";
 import Study from "./pages/Study";
+import StudyRoom from "./pages/StudyRoom";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/study",
-    element: <Study />,
+    children: [
+      {
+        path: "",
+        element: <Study />,
+      },
+      {
+        path: "room/:id",
+        element: <StudyRoom />,
+      },
+    ],
   },
 ]);
 
