@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import roomLogoUrl from "../../public/roomLogo.png";
 import CategoryIcon from "./CategoryIcon";
 
 const Wrapper = styled.div<{ $isFirst: boolean }>`
@@ -25,12 +24,28 @@ const CardTitleContainer = styled.div<{ $isFirst: boolean }>`
   flex-direction: column;
   justify-content: center;
   gap: 14px;
-  background: ${(prop) =>
-    prop.$isFirst
-      ? `linear-gradient(90deg, #9578FF 0%, #5526FF 50%, #2F119C 100%);
-`
-      : "#0D1116"};
   color: white;
+  background: #0d1116;
+
+  ${(props) =>
+    props.$isFirst &&
+    `
+      background: linear-gradient(90deg, #9578FF 0%, #5526FF 50%, #2F119C 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 2.5s ease infinite; 
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+    `}
 `;
 
 const RoomRank = styled.span`
@@ -91,7 +106,7 @@ export default function RankCard({
         <RoomRank>{roomRank}위</RoomRank>
         <RoomName>{roomName}</RoomName>
       </CardTitleContainer>
-      <RoomLogoImg src={roomLogoUrl} />
+      <RoomLogoImg src="/roomLogo.png" />
       <RoomPeopleInfo>
         <svg
           width="11"

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import roomLogoUrl from "../../public/roomLogo.png";
 import CreateButton from "./CreateButton";
 import CategoryIcon from "./CategoryIcon";
 
@@ -87,7 +86,7 @@ const StudyRoomRightheavyTitle = styled.div`
 export default function StudyRoomList() {
   return (
     <Wrapper>
-      <StudyRoomImg src={roomLogoUrl} />
+      <StudyRoomImg src="/roomLogo.png" />
       <StudyRoomInfo>
         <div>
           <StudyRoomName>스터디룸이름</StudyRoomName>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import CreateButton from "../components/CreateButton";
 import StudyRoomList from "../components/StudyRoomList";
+import BgWrapper from "../components/BgWrapper";
 
 const Wrapper = styled.div`
   padding: 112px 142px;
@@ -47,7 +48,7 @@ const StudyRoomLists = styled.div`
 
 export default function Study() {
   return (
-    <>
+    <BgWrapper>
       <Header
         color="#FFFFFF"
         iconColor="#FFFFFF"
@@ -73,6 +74,6 @@ export default function Study() {
           <StudyRoomList />
         </StudyRoomLists>
       </Wrapper>
-    </>
+    </BgWrapper>
   );
 }
