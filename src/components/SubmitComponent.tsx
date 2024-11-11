@@ -4,12 +4,12 @@ import CategoryIcon from "./CategoryIcon";
 
 const Wrapper = styled.div`
   border-radius: 20px;
-  height: 360px;
+  height: 316px;
   border: 1px solid rgba(188, 188, 188, 1);
   background-color: rgba(85, 38, 255, 0.1);
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.1);
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1.5fr 3fr 1fr;
   align-items: end;
   padding: 44px 45px;
   img {
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 const MiddleSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 32px;
+
   align-items: center;
 `;
 
@@ -45,7 +45,6 @@ const EndSection = styled.div`
   flex-direction: column;
   justify-content: end;
   align-items: end;
-  padding-bottom: 32px;
 `;
 
 export default function SubmitComponent() {
