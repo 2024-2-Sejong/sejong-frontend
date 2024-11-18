@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Join from "./pages/Join";
 import Study from "./pages/Study";
 import StudyRoom from "./pages/StudyRoom";
+import Account from "./pages/Account";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "join",
         element: <Join />,
+      },
+      {
+        path: "account",
+        element: <Account />,
       },
     ],
   },

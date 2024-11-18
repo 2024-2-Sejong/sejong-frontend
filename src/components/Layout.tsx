@@ -5,13 +5,13 @@ import Header from "./Header";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: var(--primary-bgColor);
   min-height: 100vh;
 `;
 
 const MainContent = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   flex: 1;
 `;
 
