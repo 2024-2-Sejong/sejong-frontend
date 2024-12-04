@@ -1,4 +1,10 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 import CategoryIcon from "./CategoryIcon";
@@ -140,6 +146,11 @@ const CreateStudyButton = styled.button`
   background-color: var(--primary-color);
 `;
 
+interface ModalFormProps {
+  name: string;
+  introduce: string;
+}
+
 const StudyRoomCreateModal = forwardRef<
   StudyRoomCreateModalHandle,
   StudyRoomCreateModalProps
@@ -148,7 +159,7 @@ const StudyRoomCreateModal = forwardRef<
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const { register, handleSubmit } = useForm(); // react-hook-form 사용
+  const { register, handleSubmit } = useForm<ModalFormProps>(); // react-hook-form 사용
 
   const categories = ["카테고리1", "카테고리2", "카테고리3", "카테고리4"];
 
@@ -175,19 +186,46 @@ const StudyRoomCreateModal = forwardRef<
   };
 
   // 폼 제출 시 호출되는 함수
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // 폼 제출 로직 추가 (백엔드로 보내는 등)
-    if (dialogRef.current) {
-      dialogRef.current.close(); // 모달 닫기
+  const onSubmit = (data: ModalFormProps) => {
+    if (!selectedCategory) {
+      alert("카테고리를 선택해주세요.");
+    } else {
+      console.log(data, selectedCategory);
+      // 폼 제출 로직 추가 (백엔드로 보내는 등)
+      if (dialogRef.current) {
+        dialogRef.current.close(); // 모달 닫기
+        toggleDropdown();
+      }
     }
   };
+
+  const handleCloseClick = () => {
+    dialogRef.current?.close(); // 모달 닫기
+    toggleDropdown();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setDropdownOpen(false); // 드롭다운 닫기
+      if (dialogRef.current) {
+        dialogRef.current.close(); // 모달 닫기
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   // 모달 내용
   const modalContent = (
     <StyledDialog ref={dialogRef}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CloseButton type="button" onClick={() => dialogRef.current?.close()}>
+      <ModalSubmitForm onSubmit={handleSubmit(onSubmit)}>
+        <CloseButton type="button" onClick={handleCloseClick}>
           <svg
             width="28"
             height="28"
@@ -245,7 +283,7 @@ const StudyRoomCreateModal = forwardRef<
           />
         </IntroduceContainer>
         <CreateStudyButton type="submit">스터디 생성하기</CreateStudyButton>
-      </form>
+      </ModalSubmitForm>
     </StyledDialog>
   );
 
