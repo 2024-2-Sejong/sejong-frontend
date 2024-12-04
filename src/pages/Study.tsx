@@ -3,6 +3,10 @@ import Header from "../components/Header";
 import CreateButton from "../components/CreateButton";
 import StudyRoomList from "../components/StudyRoomList";
 import BgWrapper from "../components/BgWrapper";
+import { useRef } from "react";
+import StudyRoomCreateModal, {
+  StudyRoomCreateModalHandle,
+} from "../components/StudyRoomCreateModal"; // Modal 컴포넌트에서 export된 타입을 import
 
 const Wrapper = styled.div`
   padding: 112px 142px;
@@ -47,6 +51,14 @@ const StudyRoomLists = styled.div`
 `;
 
 export default function Study() {
+  const dialogRef = useRef<StudyRoomCreateModalHandle>(null); // useRef 타입 지정
+
+  const handleRoomCreateClick = () => {
+    if (dialogRef.current) {
+      dialogRef.current.openModal();
+    }
+  };
+
   return (
     <BgWrapper>
       <Header
@@ -65,7 +77,7 @@ export default function Study() {
             bgColor={"var(--primary-color)"}
             textColor={"var(--white-color)"}
             borderRadius={100}
-            handleClick={() => console.log("create")}
+            handleClick={handleRoomCreateClick}
           />
         </ButtonContainer>
         <StudyRoomLists>
@@ -74,6 +86,7 @@ export default function Study() {
           <StudyRoomList />
         </StudyRoomLists>
       </Wrapper>
+      <StudyRoomCreateModal ref={dialogRef} />
     </BgWrapper>
   );
 }
