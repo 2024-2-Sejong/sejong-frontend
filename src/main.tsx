@@ -14,6 +14,8 @@ import { RouterProvider } from "react-router-dom";
 import router from "./Route";
 import { HelmetProvider } from "react-helmet-async";
 import MetaTag from "./components/MetaTag";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import axios from "axios";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -144,12 +146,28 @@ input{
   }
 `;
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: 1 * 60 * 1000,
+    },
+  },
+});
+
+axios.defaults.baseURL =
+  "http://ec2-3-34-141-22.ap-northeast-2.compute.amazonaws.com:8080";
+axios.defaults.withCredentials = true;
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <HelmetProvider>
-      <GlobalStyle />
-      <MetaTag />
-      <RouterProvider router={router} />
-    </HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <GlobalStyle />
+        <MetaTag />
+        <RouterProvider router={router} />
+      </HelmetProvider>
+    </QueryClientProvider>
   </StrictMode>
 );
