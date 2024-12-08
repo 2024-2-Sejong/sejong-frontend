@@ -149,11 +149,7 @@ export async function joinStudyRoom({
 }
 
 // 스터디룸 내부 상세 조회
-export async function studyRoomDetail({
-  studyRoomId,
-}: {
-  studyRoomId: string;
-}) {
+export async function studyRoomDetail(studyRoomId: string) {
   try {
     const res = await axios.get(`/api/user/studyroom/${studyRoomId}`);
     return res.data;
