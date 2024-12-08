@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Logo from "../components/Logo";
 import MainRank from "../components/MainRank";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
 // 전체 컨테이너
 const Container = styled.div`
@@ -95,7 +96,7 @@ const SubHeading = styled.h2`
   color: var(--white-color);
   margin-bottom: 30px;
 `;
-const Button = styled.button`
+const Button = styled(Link)`
   background-color: #5526ff;
   color: white;
   width: 158px;
@@ -107,6 +108,9 @@ const Button = styled.button`
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #3419b3;
@@ -221,7 +225,7 @@ export default function Home() {
 
           {/* 로고 부분 */}
           <Logo width="158" height="62" iconColor="#FFFFFF" />
-          <Button>스터디 시작하기</Button>
+          <Button to={"/study"}>스터디 시작하기</Button>
         </CenterBox>
       </Container>
       <DecoLine>
