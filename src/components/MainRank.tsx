@@ -2,6 +2,8 @@ import styled from "styled-components";
 import RankCard from "./RankCard";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getMainRank } from "../utils/api";
 
 const Wrapper = styled.div`
   padding: 170px 0px;
@@ -50,9 +52,21 @@ const rankCards = [
   { isFirst: false, roomName: "스터디룸 이름", roomRank: 3 }, // 3위
 ];
 
+interface getMainRankProps {
+  studyRoomName: string;
+  category: string[];
+  memberCount: number;
+}
+
 export default function MainRank() {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  // const { data, isPending, error } = useQuery<getMainRankProps>({
+  //   queryKey: ["mainRank"],
+  //   queryFn: getMainRank,
+  // });
+
+  // console.log(data);
 
   const handleScroll = useCallback(() => {
     if (ref.current) {

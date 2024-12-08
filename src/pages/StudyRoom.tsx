@@ -4,6 +4,9 @@ import CategoryIcon from "../components/CategoryIcon";
 import SubmitComponent from "../components/SubmitComponent";
 import Chart from "../components/Chart";
 import BgWrapper from "../components/BgWrapper";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { studyRoomProblem } from "../utils/api";
 
 const StudyRoomWrapper = styled.div`
   padding: 0px 0px 132px 0px;
@@ -188,6 +191,14 @@ const Ranking = styled.ol`
 `;
 
 export default function StudyRoom() {
+  const { id } = useParams();
+
+  // const { data, isPending, error } = useQuery({
+  //   queryKey: [id, "problem"],
+  //   queryFn: studyRoomProblem,
+  // });
+  // console.log(data);
+
   return (
     <BgWrapper>
       <Header
