@@ -49,17 +49,27 @@ export default function Header({
   iconColor,
   bgColor = "transparent",
 }: HeaderProps) {
+  const isLoggedIn = localStorage.getItem("authMessage");
+
   return (
     <Wrapper $bgColor={bgColor}>
       <Link to={"/"}>
         <Logo width="45" height="16" iconColor={iconColor} />
       </Link>
       <Lists $textcolor={color}>
-        {" "}
-        {/* Use $ prefix here */}
-        <Link to={"/study"}>스터디룸</Link>
-        <Link to={"/user/login"}>로그인</Link>
-        <Link to={"/user/join"}>회원가입</Link>
+        {isLoggedIn ? (
+          // 로그인 상태일 때
+          <>
+            <Link to={"/study"}>스터디룸</Link>
+            <Link to={"/user/account"}>마이페이지</Link>
+          </>
+        ) : (
+          <>
+            <Link to={"/study"}>스터디룸</Link>
+            <Link to={"/user/login"}>로그인</Link>
+            <Link to={"/user/join"}>회원가입</Link>
+          </>
+        )}
       </Lists>
     </Wrapper>
   );

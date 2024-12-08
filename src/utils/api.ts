@@ -192,7 +192,7 @@ export async function completeProblem({
 }
 
 // 마이 페이지
-export async function getUserInformation({ token }: { token: string }) {
+export async function getUserInformation(token: string) {
   try {
     const res = await axios.get(`/api/user/mypage`, {
       headers: { Authorization: `${token}` },

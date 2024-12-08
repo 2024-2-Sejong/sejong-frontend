@@ -28,10 +28,14 @@ const QuiteButton = styled.button`
   font-weight: 700;
 `;
 
-export default function QuiteStudyRoom() {
+export default function QuiteStudyRoom({
+  studyRoomName,
+}: {
+  studyRoomName: string;
+}) {
   return (
     <Wrapper>
-      <StudyRoomName>스터디룸 이름</StudyRoomName>
+      <StudyRoomName>{studyRoomName}</StudyRoomName>
       <QuiteButton>
         <svg
           width="12"

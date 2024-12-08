@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import QuiteStudyRoom from "../components/QuiteStudyRoom";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInformation } from "../utils/api";
 
+// 스타일 컴포넌트 정의
 const Wrapper = styled.div`
   width: 100vw;
   padding: 96px 138px;
@@ -57,7 +60,26 @@ const WhiteBox = styled.div`
   }
 `;
 
+// userInformationProps는 스터디룸 정보 배열로 수정
+interface UserInformationProps {
+  studyRoomId: string;
+  studyRoomName: string;
+}
+
 export default function Account() {
+  const token = localStorage.getItem("authMessage");
+
+  // useQuery에서 반환되는 데이터가 배열 형태로 처리되도록 수정
+  const { data, isLoading } = useQuery<UserInformationProps[]>({
+    queryKey: ["user", token],
+    queryFn: () => getUserInformation(token!),
+  });
+
+  // 로딩 상태 체크
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Wrapper>
       <Titles>
@@ -70,11 +92,12 @@ export default function Account() {
           <SubTitle>스터디룸 관리</SubTitle>
           <WhiteBox>
             <ul>
-              <QuiteStudyRoom />
-              <QuiteStudyRoom />
-              <QuiteStudyRoom />
-              <QuiteStudyRoom />
-              <QuiteStudyRoom />
+              {data?.map((studyRoom) => (
+                <QuiteStudyRoom
+                  key={studyRoom.studyRoomId}
+                  studyRoomName={studyRoom.studyRoomName}
+                />
+              ))}
             </ul>
           </WhiteBox>
         </SubContainerSection>
