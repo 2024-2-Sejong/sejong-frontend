@@ -193,7 +193,7 @@ const Ranking = styled.ol`
 export default function StudyRoom() {
   const { id } = useParams();
 
-  // const { data, isPending, error } = useQuery({
+  // const { data, isPending, error } = useQuery<studyRoomProps>({
   //   queryKey: [id, "problem"],
   //   queryFn: studyRoomProblem,
   // });

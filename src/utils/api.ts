@@ -74,14 +74,19 @@ export async function userInitialLogin({
 }
 
 // 전체 스터디룸 조회
-export async function getAllStudyRooms({ token }: { token: string }) {
+export async function getAllStudyRooms({ token }: { token: string | null }) {
   try {
+    // 요청 헤더를 기본값으로 설정하고, token이 있을 경우 Authorization 헤더를 추가합니다.
+    const headers = token ? { Authorization: `${token}` } : {};
+
     const res = await axios.get(`/api/user/studyroom`, {
-      headers: { Authorization: `${token}` },
+      headers,
     });
+
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching study rooms:", error);
+    throw error; // 에러를 다시 던져서 호출한 쪽에서 처리할 수 있도록 합니다.
   }
 }
 
@@ -122,7 +127,7 @@ export async function createStudyRoom({
 
 interface joinStudyRoomProps {
   token: string;
-  studyRoomId: number;
+  studyRoomId: string;
 }
 
 export async function joinStudyRoom({
@@ -147,7 +152,7 @@ export async function joinStudyRoom({
 export async function studyRoomDetail({
   studyRoomId,
 }: {
-  studyRoomId: number;
+  studyRoomId: string;
 }) {
   try {
     const res = await axios.get(`/api/user/studyroom/${studyRoomId}`);
@@ -169,7 +174,7 @@ export async function studyRoomProblem() {
 
 // 문제제출 후 통계 갱신
 interface completeProblemProps {
-  studyRoomId: number;
+  studyRoomId: string;
   token: string;
 }
 

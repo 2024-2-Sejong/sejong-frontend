@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import CreateButton from "./CreateButton";
 import CategoryIcon from "./CategoryIcon";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -83,31 +84,44 @@ const StudyRoomRightheavyTitle = styled.div`
   gap: 8px;
 `;
 
-export default function StudyRoomList() {
+interface studyRoomListProps {
+  key: string;
+  studyRoomId: string;
+  studyRoomName: string;
+  ownerName: string;
+  memberCount: number;
+  studyRoomDescription: string;
+  category: string[];
+  member: boolean;
+}
+
+export default function StudyRoomList({
+  studyRoomName,
+  studyRoomDescription,
+  category,
+  ownerName,
+  memberCount,
+  studyRoomId,
+}: studyRoomListProps) {
   return (
     <Wrapper>
       <StudyRoomImg src="/roomLogo.png" />
       <StudyRoomInfo>
         <div>
-          <StudyRoomName>스터디룸이름</StudyRoomName>
-          <StudyRoomIntro>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis,
-            perferendis nisi. Dolore odit, debitis quia, dolorem, natus id
-            deleniti molestias quos totam vel ad blanditiis atque molestiae
-            numquam? Ipsa, nam?
-          </StudyRoomIntro>
+          <StudyRoomName>{studyRoomName}</StudyRoomName>
+          <StudyRoomIntro>{studyRoomDescription}</StudyRoomIntro>
         </div>
         <StudyRoomCategories>
-          <CategoryIcon bgColor={"rgba(0, 0, 0, 0.7)"} text="카테고리" />
-          <CategoryIcon bgColor={"rgba(0, 0, 0, 0.7)"} text="카테고리" />
-          <CategoryIcon bgColor={"rgba(0, 0, 0, 0.7)"} text="카테고리" />
+          {category.map((c, index) => (
+            <CategoryIcon key={index} bgColor={"rgba(0, 0, 0, 0.7)"} text={c} />
+          ))}
         </StudyRoomCategories>
       </StudyRoomInfo>
       <StudyRoomRightContainer>
         <div>
           <StudyRoomRightLine>
             <StudyRoomRightLightTitle>스터디장</StudyRoomRightLightTitle>
-            <StudyRoomRightheavyTitle>오코테</StudyRoomRightheavyTitle>
+            <StudyRoomRightheavyTitle>{ownerName}</StudyRoomRightheavyTitle>
           </StudyRoomRightLine>
           <StudyRoomRightLine>
             <StudyRoomRightLightTitle>스터디원</StudyRoomRightLightTitle>
@@ -126,19 +140,21 @@ export default function StudyRoomList() {
                   fill="#0D1116"
                 />
               </svg>
-              15명
+              {memberCount}
             </StudyRoomRightheavyTitle>
           </StudyRoomRightLine>
         </div>
-        <CreateButton
-          text={"스터디 참가하기"}
-          bgColor={"var(--primary-color)"}
-          textColor={"var(--white-color)"}
-          borderRadius={4}
-          handleClick={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
+        <Link to={`/study/room/${studyRoomId}`}>
+          <CreateButton
+            text={"스터디 참가하기"}
+            bgColor={"var(--primary-color)"}
+            textColor={"var(--white-color)"}
+            borderRadius={4}
+            handleClick={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
+        </Link>
       </StudyRoomRightContainer>
     </Wrapper>
   );

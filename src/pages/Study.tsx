@@ -7,6 +7,8 @@ import { useRef } from "react";
 import StudyRoomCreateModal, {
   StudyRoomCreateModalHandle,
 } from "../components/StudyRoomCreateModal"; // Modal 컴포넌트에서 export된 타입을 import
+import { useQuery } from "@tanstack/react-query";
+import { getAllStudyRooms } from "../utils/api";
 
 const Wrapper = styled.div`
   padding: 112px 142px;
@@ -50,14 +52,35 @@ const StudyRoomLists = styled.div`
   align-items: center;
 `;
 
+interface studyRoomProps {
+  studyRoomId: string;
+  studyRoomName: string;
+  ownerName: string;
+  memberCount: number;
+  studyRoomScore: number;
+  studyRoomDescription: string;
+  category: string[];
+  member: boolean;
+}
+
 export default function Study() {
   const dialogRef = useRef<StudyRoomCreateModalHandle>(null); // useRef 타입 지정
+  const token = localStorage.getItem("authMessage"); // 토큰을 로컬스토리지에서 가져옴
+
+  // useQuery로 스터디룸 데이터를 가져옵니다.
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["studyrooms"], // 쿼리 키
+    queryFn: () => getAllStudyRooms({ token }), // getAllStudyRooms에 토큰 전달
+  });
 
   const handleRoomCreateClick = () => {
     if (dialogRef.current) {
-      dialogRef.current.openModal();
+      dialogRef.current.openModal(); // 모달 열기
     }
   };
+
+  if (isLoading) return <div>Loading...</div>; // 로딩 상태 처리
+  if (error) return <div>Error loading study rooms</div>; // 에러 상태 처리
 
   return (
     <BgWrapper>
@@ -81,9 +104,19 @@ export default function Study() {
           />
         </ButtonContainer>
         <StudyRoomLists>
-          <StudyRoomList />
-          <StudyRoomList />
-          <StudyRoomList />
+          {data?.map((room: studyRoomProps) => (
+            // room 객체를 StudyRoomList 컴포넌트에 전달
+            <StudyRoomList
+              key={room.studyRoomId}
+              studyRoomId={room.studyRoomId}
+              studyRoomName={room.studyRoomName}
+              ownerName={room.ownerName}
+              memberCount={room.memberCount}
+              studyRoomDescription={room.studyRoomDescription}
+              category={room.category}
+              member={room.member}
+            />
+          ))}
         </StudyRoomLists>
       </Wrapper>
       <StudyRoomCreateModal ref={dialogRef} />
