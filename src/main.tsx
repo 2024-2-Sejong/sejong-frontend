@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 import SUITThin from "./fonts/SUIT-Thin.woff2";
@@ -151,7 +150,7 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-      staleTime: 1 * 60 * 1000,
+      staleTime: 1 * 60 * 10000,
     },
   },
 });
@@ -161,13 +160,11 @@ axios.defaults.baseURL =
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <HelmetProvider>
-        <GlobalStyle />
-        <MetaTag />
-        <RouterProvider router={router} />
-      </HelmetProvider>
-    </QueryClientProvider>
-  </StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <HelmetProvider>
+      <GlobalStyle />
+      <MetaTag />
+      <RouterProvider router={router} />
+    </HelmetProvider>
+  </QueryClientProvider>
 );

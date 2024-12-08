@@ -3,6 +3,7 @@ import styled from "styled-components";
 import FormButton from "./FormButton";
 import { motion, AnimatePresence } from "framer-motion";
 import ErrorMessage from "./ErrorMessage";
+import axios from "axios"; // axios import
 
 const Wrapper = styled.div`
   width: 600px;
@@ -91,7 +92,7 @@ export default function Survey() {
     setError(""); // 응답을 선택하면 에러 메시지 초기화
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (responses[currentQuestionIndex] === 0) {
       setError("난이도를 선택해주세요."); // 선택하지 않았을 때 에러 메시지 설정
       return; // 다음으로 넘어가지 않도록 조기 리턴
@@ -101,23 +102,47 @@ export default function Survey() {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       console.log("설문 결과:", responses);
-      // 설문 종료 후 결과를 저장하거나 제출할 수 있습니다.
+
+      // 설문 결과를 API로 전송
+      try {
+        const token = localStorage.getItem("authMessage");
+        if (!token) {
+          throw new Error("토큰이 없습니다.");
+        }
+
+        // 설문 데이터를 API 형식으로 변환
+        const initialData = questions.map((category, index) => ({
+          categoryId: category, // 각 카테고리에 고유 ID 부여 (1부터 시작)
+          difficulty: responses[index],
+        }));
+
+        const response = await axios.post(
+          `/api/user/difficulty`,
+          { initialData },
+          {
+            headers: { Authorization: `${token}` },
+          }
+        );
+
+        if (response.status === 200) {
+          alert("설문이 성공적으로 제출되었습니다.");
+        } else {
+          alert("설문 제출에 실패했습니다. 다시 시도해주세요.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("설문 제출 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
     }
   };
 
   const handlePrev = () => {
-    const updatedResponses = [...responses];
-    updatedResponses[currentQuestionIndex] = 0;
-    updatedResponses[currentQuestionIndex - 1] = 0;
-    setResponses(updatedResponses);
-    console.log(responses);
-
-    setCurrentQuestionIndex(currentQuestionIndex - 1);
+    setCurrentQuestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
   return (
     <Wrapper>
-      {currentQuestionIndex >= 1 ? (
+      {currentQuestionIndex >= 1 && (
         <SurveyPrevButton onClick={handlePrev}>
           <svg
             width="10"
@@ -136,7 +161,7 @@ export default function Survey() {
           </svg>
           <span>이전</span>
         </SurveyPrevButton>
-      ) : null}
+      )}
       <SurveyIndex>{currentQuestionIndex + 1}/6</SurveyIndex>
       <SurveyTitle>아래 문제의 체감 난이도를 선택해주세요</SurveyTitle>
       <AnimatePresence mode="wait">
@@ -167,7 +192,7 @@ export default function Survey() {
         bgcolor="#5526FF"
         textcolor="#FFFFFF"
         onClick={handleNext}
-        check={responses[currentQuestionIndex] === 0}
+        check={false}
       />
     </Wrapper>
   );

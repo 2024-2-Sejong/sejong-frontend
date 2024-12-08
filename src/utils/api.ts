@@ -44,7 +44,7 @@ export async function userLogin({ username, password }: userJoinProps) {
 // 초기 로그인 => 설문조사
 
 interface categoryList {
-  categoryId: number;
+  categoryId: string;
   difficulty: number;
 }
 
@@ -64,7 +64,7 @@ export async function userInitialLogin({
         initialData,
       },
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     return res.data;
@@ -77,7 +77,7 @@ export async function userInitialLogin({
 export async function getAllStudyRooms({ token }: { token: string }) {
   try {
     const res = await axios.get(`/api/user/studyroom`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `${token}` },
     });
     return res.data;
   } catch (error) {
@@ -109,7 +109,7 @@ export async function createStudyRoom({
         category,
       },
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     return res.data;
@@ -134,7 +134,7 @@ export async function joinStudyRoom({
       `/api/user/studyroom/${studyRoomId}/join`,
       {},
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     return res.data;
@@ -181,7 +181,7 @@ export async function completeProblem({
     const res = await axios.post(
       `/api/user/studyroom/${studyRoomId}/statistics`,
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     return res.data;
@@ -194,7 +194,7 @@ export async function completeProblem({
 export async function getUserInformation({ token }: { token: string }) {
   try {
     const res = await axios.get(`/api/user/mypage`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `${token}` },
     });
     return res.data;
   } catch (error) {

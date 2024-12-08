@@ -46,11 +46,14 @@ const RankCardContainer = styled.div`
 
 const MotionRankCard = styled(motion.div)``;
 
-const rankCards = [
-  { isFirst: false, roomName: "스터디룸 이름", roomRank: 2 }, // 2위
-  { isFirst: true, roomName: "스터디룸 이름", roomRank: 1 }, // 1위
-  { isFirst: false, roomName: "스터디룸 이름", roomRank: 3 }, // 3위
-];
+const LoadingSpinner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: var(--primary-color);
+  height: 200px;
+`;
 
 interface getMainRankProps {
   studyRoomName: string;
@@ -61,12 +64,11 @@ interface getMainRankProps {
 export default function MainRank() {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  // const { data, isPending, error } = useQuery<getMainRankProps>({
-  //   queryKey: ["mainRank"],
-  //   queryFn: getMainRank,
-  // });
 
-  // console.log(data);
+  const { data, isLoading, isError, error } = useQuery<getMainRankProps[]>({
+    queryKey: ["mainRank"],
+    queryFn: getMainRank,
+  });
 
   const handleScroll = useCallback(() => {
     if (ref.current) {
@@ -83,6 +85,44 @@ export default function MainRank() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner>로딩 중...</LoadingSpinner>
+      </Wrapper>
+    );
+  }
+
+  if (isError) {
+    console.error(error);
+    return (
+      <Wrapper>
+        <LoadingSpinner>
+          데이터를 불러오는 데 실패했습니다. 다시 시도해주세요.
+        </LoadingSpinner>
+      </Wrapper>
+    );
+  }
+
+  if (!data || data.length < 3) {
+    return (
+      <Wrapper>
+        <LoadingSpinner>현재 순위 데이터가 부족합니다.</LoadingSpinner>
+      </Wrapper>
+    );
+  }
+
+  // 데이터 가공: 순위와 isFirst 설정
+  const rankCards = data.map((card, index) => {
+    if (index === 0) {
+      return { ...card, isFirst: false, roomRank: 2 }; // 첫 번째 카드 2위
+    } else if (index === 1) {
+      return { ...card, isFirst: true, roomRank: 1 }; // 두 번째 카드 1위
+    } else {
+      return { ...card, isFirst: false, roomRank: 3 }; // 세 번째 카드 3위
+    }
+  });
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -92,12 +132,18 @@ export default function MainRank() {
       <RankCardContainer ref={ref}>
         {rankCards.map((card) => (
           <MotionRankCard
-            key={card.roomRank}
+            key={card.studyRoomName}
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.3, delay: (2 - card.roomRank) * 0.5 }}
+            transition={{ duration: 0.3, delay: (3 - card.roomRank) * 0.5 }}
           >
-            <RankCard {...card} />
+            <RankCard
+              isFirst={card.isFirst}
+              roomName={card.studyRoomName}
+              roomRank={card.roomRank}
+              memberCount={card.memberCount}
+              category={card.category}
+            />
           </MotionRankCard>
         ))}
       </RankCardContainer>

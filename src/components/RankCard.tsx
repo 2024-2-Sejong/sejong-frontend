@@ -85,7 +85,7 @@ const RoomPeopleInfo = styled.div`
 
 const Categories = styled.div`
   display: flex;
-  align-self: self-start;
+  flex-wrap: wrap;
   gap: 10px;
 `;
 
@@ -93,12 +93,16 @@ interface RankCardProps {
   isFirst: boolean;
   roomName: string;
   roomRank: number;
+  memberCount: number;
+  category: string[];
 }
 
 export default function RankCard({
   isFirst,
   roomName,
   roomRank,
+  memberCount,
+  category,
 }: RankCardProps) {
   return (
     <Wrapper $isFirst={isFirst}>
@@ -122,18 +126,16 @@ export default function RankCard({
             fill={`${isFirst ? "#5526FF" : "rgba(0, 0, 0, 1)"}`}
           />
         </svg>
-        <span>15명</span>
+        <span>{memberCount}명</span>
       </RoomPeopleInfo>
       <Categories>
-        <CategoryIcon
-          text="카테고리"
-          bgColor={isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"}
-        />
-
-        <CategoryIcon
-          text="카테고리"
-          bgColor={isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"}
-        />
+        {category.map((c, index) => (
+          <CategoryIcon
+            text={c}
+            key={index}
+            bgColor={isFirst ? "rgba(85, 38, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"}
+          />
+        ))}
       </Categories>
     </Wrapper>
   );
