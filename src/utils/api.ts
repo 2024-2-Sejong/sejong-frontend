@@ -59,7 +59,7 @@ export async function userInitialLogin({
 }: userInitialLoginProps) {
   try {
     const res = await axios.post(
-      `/api/user/difficulty`,
+      `/api/user/difficulty/save`,
       {
         initialData,
       },

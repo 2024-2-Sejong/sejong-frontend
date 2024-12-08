@@ -4,6 +4,7 @@ import FormButton from "./FormButton";
 import { motion, AnimatePresence } from "framer-motion";
 import ErrorMessage from "./ErrorMessage";
 import axios from "axios"; // axios import
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -84,6 +85,7 @@ export default function Survey() {
     Array(questions.length).fill(0)
   );
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleResponse = (value: number) => {
     const updatedResponses = [...responses];
@@ -112,13 +114,13 @@ export default function Survey() {
 
         // 설문 데이터를 API 형식으로 변환
         const initialData = questions.map((category, index) => ({
-          categoryId: category, // 각 카테고리에 고유 ID 부여 (1부터 시작)
+          categoryId: index + 1, // 각 카테고리에 고유 ID 부여 (1부터 시작)
           difficulty: responses[index],
         }));
 
         const response = await axios.post(
-          `/api/user/difficulty`,
-          { initialData },
+          `/api/user/difficulty/save`,
+          initialData,
           {
             headers: { Authorization: `${token}` },
           }
@@ -126,6 +128,7 @@ export default function Survey() {
 
         if (response.status === 200) {
           alert("설문이 성공적으로 제출되었습니다.");
+          navigate("/");
         } else {
           alert("설문 제출에 실패했습니다. 다시 시도해주세요.");
         }
