@@ -72,7 +72,10 @@ export default function Header({
             <p>{username}님 안녕하세요!</p>
             <Link to={"/study"}>스터디룸</Link>
             <Link to={"/user/account"}>마이페이지</Link>
-            <button onClick={handleClick} style={{ color: "white" }}>
+            <button
+              onClick={handleClick}
+              style={{ color: "var(--primary-color)", fontWeight: 900 }}
+            >
               로그아웃
             </button>
           </>

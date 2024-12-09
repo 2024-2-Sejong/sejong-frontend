@@ -302,7 +302,7 @@ export default function StudyRoom() {
       <StudyRoomWrapper>
         {/* 방 정보 섹션 */}
         <StudyRoomContainer>
-          <StudyRoomImg src="/roomLogo.png" />
+          <StudyRoomImg src="/1.png" />
           <StudyRoomInfo>
             <InfoLeftSection>
               <div>

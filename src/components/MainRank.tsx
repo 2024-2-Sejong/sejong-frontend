@@ -130,7 +130,7 @@ export default function MainRank() {
         <SemiTitle>현재 순위권 스터디룸을 확인하세요!</SemiTitle>
       </TitleContainer>
       <RankCardContainer ref={ref}>
-        {rankCards.map((card) => (
+        {rankCards.map((card, index) => (
           <MotionRankCard
             key={card.studyRoomName}
             initial={{ opacity: 0, y: 20 }}
@@ -143,6 +143,9 @@ export default function MainRank() {
               roomRank={card.roomRank}
               memberCount={card.memberCount}
               category={card.category}
+              index={
+                index === 0 ? 5 : index === 1 ? 6 : index === 2 ? 2 : index
+              }
             />
           </MotionRankCard>
         ))}

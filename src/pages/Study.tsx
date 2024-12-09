@@ -61,6 +61,7 @@ interface studyRoomProps {
   studyRoomDescription: string;
   category: string[];
   member: boolean;
+  index: number;
 }
 
 export default function Study() {
@@ -104,7 +105,7 @@ export default function Study() {
           />
         </ButtonContainer>
         <StudyRoomLists>
-          {data?.map((room: studyRoomProps) => (
+          {data?.map((room: studyRoomProps, index: number) => (
             // room 객체를 StudyRoomList 컴포넌트에 전달
             <StudyRoomList
               key={room.studyRoomId}
@@ -115,6 +116,7 @@ export default function Study() {
               studyRoomDescription={room.studyRoomDescription}
               category={room.category}
               member={room.member}
+              index={index}
             />
           ))}
         </StudyRoomLists>

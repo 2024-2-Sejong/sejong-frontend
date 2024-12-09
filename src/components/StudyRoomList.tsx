@@ -95,6 +95,7 @@ interface studyRoomListProps {
   studyRoomDescription: string;
   category: string[];
   member: boolean;
+  index: number;
 }
 
 export default function StudyRoomList({
@@ -105,6 +106,7 @@ export default function StudyRoomList({
   memberCount,
   studyRoomId,
   member,
+  index,
 }: studyRoomListProps) {
   const queryClient = useQueryClient();
 
@@ -143,7 +145,7 @@ export default function StudyRoomList({
 
   return (
     <Wrapper>
-      <StudyRoomImg src="/roomLogo.png" />
+      <StudyRoomImg src={`${index + 1}.png`} />
       <StudyRoomInfo>
         <div>
           <StudyRoomName>{studyRoomName}</StudyRoomName>

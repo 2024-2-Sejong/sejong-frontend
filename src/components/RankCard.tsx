@@ -96,6 +96,7 @@ interface RankCardProps {
   roomRank: number;
   memberCount: number;
   category: string[];
+  index: number;
 }
 
 export default function RankCard({
@@ -104,6 +105,7 @@ export default function RankCard({
   roomRank,
   memberCount,
   category,
+  index,
 }: RankCardProps) {
   return (
     <Wrapper $isFirst={isFirst}>
@@ -111,7 +113,7 @@ export default function RankCard({
         <RoomRank>{roomRank}위</RoomRank>
         <RoomName>{roomName}</RoomName>
       </CardTitleContainer>
-      <RoomLogoImg src="/roomLogo.png" />
+      <RoomLogoImg src={`/${index}.png`} />
       <RoomPeopleInfo>
         <svg
           width="11"
