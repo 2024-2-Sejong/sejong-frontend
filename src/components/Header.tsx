@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Logo from "./Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Wrapper = styled.header<{ $bgColor: string }>`
   width: 100vw;
@@ -50,6 +50,15 @@ export default function Header({
   bgColor = "transparent",
 }: HeaderProps) {
   const isLoggedIn = localStorage.getItem("authMessage");
+  const username = localStorage.getItem("username");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    localStorage.removeItem("authMessage");
+    localStorage.removeItem("username");
+    alert("로그아웃이 완료되었습니다!");
+    navigate("/");
+  };
 
   return (
     <Wrapper $bgColor={bgColor}>
@@ -60,8 +69,12 @@ export default function Header({
         {isLoggedIn ? (
           // 로그인 상태일 때
           <>
+            <p>{username}님 안녕하세요!</p>
             <Link to={"/study"}>스터디룸</Link>
             <Link to={"/user/account"}>마이페이지</Link>
+            <button onClick={handleClick} style={{ color: "white" }}>
+              로그아웃
+            </button>
           </>
         ) : (
           <>

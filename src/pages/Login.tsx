@@ -70,10 +70,12 @@ export default function Login() {
 
       // 초기 로그인 상태 업데이트
       if (initialLogin) {
+        await localStorage.setItem("username", data.id);
         setIsInitialLogin(true); // Survey 상태로 전환
       } else {
         console.log("기존 사용자 로그인입니다.");
         alert("로그인 성공!");
+        await localStorage.setItem("username", data.id);
         navigate("/");
       }
     } catch (error) {

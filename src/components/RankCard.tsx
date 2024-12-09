@@ -85,6 +85,7 @@ const RoomPeopleInfo = styled.div`
 
 const Categories = styled.div`
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   gap: 10px;
 `;

@@ -1,14 +1,19 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CreateButton from "./CreateButton";
 import CategoryIcon from "./CategoryIcon";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Wrapper = styled.div`
+interface WrapperProps {
+  isSolved: boolean; // isSolved prop 타입 정의
+}
+
+const Wrapper = styled.div<WrapperProps>`
   border-radius: 20px;
   height: 316px;
   border: 1px solid rgba(188, 188, 188, 1);
-  background-color: rgba(85, 38, 255, 0.1);
+  background-color: ${(props) =>
+    props.isSolved ? "#DFF7E1" : "rgba(85, 38, 255, 0.1)"};
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.1);
   display: grid;
   grid-template-columns: 1.5fr 3fr 1fr;
@@ -24,7 +29,6 @@ const Wrapper = styled.div`
 const MiddleSection = styled.div`
   display: flex;
   flex-direction: column;
-
   align-items: center;
 `;
 
@@ -65,9 +69,24 @@ export default function SubmitComponent({
   studyRoomId,
 }: submitComponentProps) {
   const token = localStorage.getItem("authMessage");
+  const username = localStorage.getItem("username");
+
+  const [isSolved, setIsSolved] = useState(false);
+
+  useEffect(() => {
+    // 3초 후에 실행
+    const timer = setTimeout(() => {
+      const solved = JSON.parse(localStorage.getItem("solved") || "[]");
+      setIsSolved(solved.includes(`${username}-${problem_id}`));
+    }, 2000);
+
+    // 컴포넌트 언마운트 시 타이머 클리어
+    return () => clearTimeout(timer);
+  }, [username, problem_id]);
 
   const handleClick = async () => {
-    // 한글 카테고리를 영어로 변환하는 매핑 테이블
+    if (isSolved) return;
+
     const categoryMapping: { [key: string]: string } = {
       "다이나믹 프로그래밍": "DP",
       구현: "Implementation",
@@ -77,16 +96,14 @@ export default function SubmitComponent({
       "그리디 알고리즘": "Greedy",
     };
 
-    // category_list를 영어로 변환
     const categoriesToSubmit = category_list
-      .filter((category) => categoryMapping[category]) // 매핑 가능한 카테고리만 필터링
+      .filter((category) => categoryMapping[category])
       .map((category) => ({
         category: categoryMapping[category],
         value: 1,
       }));
 
     try {
-      // 각각의 카테고리에 대해 Axios 요청
       await Promise.all(
         categoriesToSubmit.map(({ category, value }) =>
           axios.post(
@@ -98,7 +115,13 @@ export default function SubmitComponent({
           )
         )
       );
+
       console.log("데이터 전송 성공");
+
+      const solved = JSON.parse(localStorage.getItem("solved") || "[]");
+      const updatedSolved = [...solved, `${username}-${problem_id}`];
+      localStorage.setItem("solved", JSON.stringify(updatedSolved));
+
       window.location.href = `${url}`;
     } catch (error) {
       console.error("데이터 전송 실패:", error);
@@ -106,7 +129,7 @@ export default function SubmitComponent({
   };
 
   return (
-    <Wrapper>
+    <Wrapper isSolved={isSolved}>
       <img src="/character.png" alt="ocoteCharacter" />
       <MiddleSection>
         <ProblemTitle>{name}</ProblemTitle>
@@ -120,8 +143,8 @@ export default function SubmitComponent({
       </MiddleSection>
       <EndSection>
         <CreateButton
-          text="코드 제출하기"
-          bgColor="var(--primary-color)"
+          text={isSolved ? "코드 제출 완료" : "코드 제출하기"}
+          bgColor={isSolved ? "gray" : "var(--primary-color)"}
           textColor="white"
           borderRadius={1}
           handleClick={handleClick}

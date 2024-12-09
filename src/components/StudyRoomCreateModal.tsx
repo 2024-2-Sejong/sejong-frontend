@@ -164,7 +164,16 @@ const StudyRoomCreateModal = forwardRef<
 
   const { register, handleSubmit } = useForm<ModalFormProps>(); // react-hook-form 사용
 
-  const categories = ["카테고리1", "카테고리2", "카테고리3", "카테고리4"];
+  const categories = [
+    "구현",
+    "다이나믹 프로그래밍",
+    "Java",
+    "Python",
+    "그리디",
+    "문자열",
+    "자료구조",
+    "그래프",
+  ];
 
   useImperativeHandle(ref, () => ({
     openModal() {

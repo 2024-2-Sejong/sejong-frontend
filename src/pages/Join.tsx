@@ -78,7 +78,7 @@ export default function Join() {
 
       if (response.status === 200) {
         alert("회원가입이 완료되었습니다!");
-        navigate("/login"); // 회원가입 성공 시 로그인 페이지로 이동
+        navigate("/user/login"); // 회원가입 성공 시 로그인 페이지로 이동
       } else {
         setErrorMessage("회원가입에 실패했습니다. 다시 시도해주세요.");
       }
