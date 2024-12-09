@@ -47,16 +47,30 @@ const EndSection = styled.div`
   align-items: end;
 `;
 
-export default function SubmitComponent() {
+interface submitComponentProps {
+  category_list: string[];
+  name: string;
+  problem_id: number;
+  url: string;
+}
+
+export default function SubmitComponent({
+  category_list,
+  name,
+  problem_id,
+  url,
+}: submitComponentProps) {
   return (
     <Wrapper>
       <img src="/character.png" alt="ocoteCharacter" />
       <MiddleSection>
-        <ProblemTitle>배열 돌리기4</ProblemTitle>
+        <ProblemTitle>{name}</ProblemTitle>
         <CategoryIcons>
-          <CategoryIcon text="카테고리 1" bgColor="rgba(0, 0, 0, 0.7)" />
-          <CategoryIcon text="카테고리 1" bgColor="rgba(0, 0, 0, 0.7)" />
-          <CategoryIcon text="카테고리 1" bgColor="rgba(0, 0, 0, 0.7)" />
+          {category_list &&
+            category_list.length > 0 &&
+            category_list.map((c, index) => (
+              <CategoryIcon key={index} text={c} bgColor="rgba(0, 0, 0, 0.7)" />
+            ))}
         </CategoryIcons>
       </MiddleSection>
       <EndSection>

@@ -209,6 +209,13 @@ interface studyRoomDetailProps {
   statistics: statisticsProps;
 }
 
+interface studyRoomProblemProps {
+  category_list: string[];
+  name: string;
+  problem_id: number;
+  url: string;
+}
+
 export default function StudyRoom() {
   const { id } = useParams();
 
@@ -221,7 +228,7 @@ export default function StudyRoom() {
     data: problemData,
     isLoading: problemLoading,
     error: problemError,
-  } = useQuery({
+  } = useQuery<studyRoomProblemProps>({
     queryKey: ["problem", id],
     queryFn: () =>
       studyRoomProblem({
@@ -240,8 +247,6 @@ export default function StudyRoom() {
   if (error || problemError) {
     return <div>Error occurred while fetching data.</div>;
   }
-
-  console.log(problemData);
 
   return (
     <BgWrapper>
@@ -286,14 +291,21 @@ export default function StudyRoom() {
           </StudyRoomInfo>
         </StudyRoomContainer>
 
-        {/* 코드 제출 섹션 시작*/}
-        <TodayProblemContatiner>
-          <h2>오늘의 문제</h2>
-          <TodayProblemMessage>
-            오늘의 문제를 아직 풀지 않았어요!
-          </TodayProblemMessage>
-          <SubmitComponent />
-        </TodayProblemContatiner>
+        {/* 코드 제출 섹션 시작 */}
+        {problemData && (
+          <TodayProblemContatiner>
+            <h2>오늘의 문제</h2>
+            <TodayProblemMessage>
+              오늘의 문제를 아직 풀지 않았어요!
+            </TodayProblemMessage>
+            <SubmitComponent
+              category_list={problemData.category_list}
+              name={problemData.name}
+              problem_id={problemData.problem_id}
+              url={problemData.url}
+            />
+          </TodayProblemContatiner>
+        )}
 
         {/* 스터디룸 통계 섹션 시작 */}
         <StudyRoomStatistics>
