@@ -159,9 +159,30 @@ export async function studyRoomDetail(studyRoomId: string) {
 }
 
 // 스터디룸별 문제 불러오기
-export async function studyRoomProblem() {
+
+interface studyRoomProblemProps {
+  input_correct_rate: number;
+  input_difficulty: number;
+  input_category: string[];
+  input_source: string[];
+  input_language: string[];
+}
+
+export async function studyRoomProblem({
+  input_correct_rate,
+  input_difficulty,
+  input_category,
+  input_source,
+  input_language,
+}: studyRoomProblemProps) {
   try {
-    const res = await axios.post(`http://34.64.140.45:8000/recommand`);
+    const res = await axios.post(`http://34.64.140.45:8000/recommand`, {
+      input_correct_rate,
+      input_difficulty,
+      input_category,
+      input_source,
+      input_language,
+    });
     return res.data;
   } catch (error) {
     console.log(error);

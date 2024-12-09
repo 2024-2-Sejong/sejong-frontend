@@ -2,6 +2,8 @@ import styled from "styled-components";
 import CreateButton from "./CreateButton";
 import CategoryIcon from "./CategoryIcon";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -103,6 +105,38 @@ export default function StudyRoomList({
   memberCount,
   studyRoomId,
 }: studyRoomListProps) {
+  const queryClient = useQueryClient();
+
+  const handleClick = async () => {
+    const token = localStorage.getItem("authMessage"); // 인증 토큰을 로컬 스토리지에서 가져옴
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `/api/user/studyroom/${studyRoomId}/join`,
+        {},
+        {
+          headers: { Authorization: `${token}` },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("스터디룸에 성공적으로 참가하였습니다!");
+        queryClient.invalidateQueries({
+          queryKey: ["studyroom", studyRoomId],
+        });
+      } else {
+        alert("스터디룸 참가에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("스터디룸 참가 중 오류 발생:", error);
+      alert("스터디룸 참가 중 문제가 발생했습니다.");
+    }
+  };
+
   return (
     <Wrapper>
       <StudyRoomImg src="/roomLogo.png" />
@@ -150,9 +184,7 @@ export default function StudyRoomList({
             bgColor={"var(--primary-color)"}
             textColor={"var(--white-color)"}
             borderRadius={4}
-            handleClick={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+            handleClick={handleClick}
           />
         </Link>
       </StudyRoomRightContainer>

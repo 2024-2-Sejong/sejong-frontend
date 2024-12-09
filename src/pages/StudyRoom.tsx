@@ -217,13 +217,31 @@ export default function StudyRoom() {
     queryFn: () => studyRoomDetail(id!),
   });
 
-  if (isLoading) {
+  const {
+    data: problemData,
+    isLoading: problemLoading,
+    error: problemError,
+  } = useQuery({
+    queryKey: ["problem", id],
+    queryFn: () =>
+      studyRoomProblem({
+        input_correct_rate: 30,
+        input_difficulty: 5,
+        input_category: ["그리디"],
+        input_source: ["baekjoon"],
+        input_language: ["Python 3"],
+      }),
+  });
+
+  if (isLoading || problemLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  if (error || problemError) {
     return <div>Error occurred while fetching data.</div>;
   }
+
+  console.log(problemData);
 
   return (
     <BgWrapper>
