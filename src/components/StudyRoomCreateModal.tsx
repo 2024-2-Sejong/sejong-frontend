@@ -296,7 +296,7 @@ const StudyRoomCreateModal = forwardRef<
           <ModalInputName>소개글</ModalInputName>
           <IntroduceTextArea
             placeholder="스터디룸 소개글"
-            {...register("introduction")}
+            {...register("introduce")}
           />
         </IntroduceContainer>
         <CreateStudyButton type="submit">스터디 생성하기</CreateStudyButton>

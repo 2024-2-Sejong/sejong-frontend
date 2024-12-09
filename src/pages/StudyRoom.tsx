@@ -6,7 +6,11 @@ import Chart from "../components/Chart";
 import BgWrapper from "../components/BgWrapper";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { studyRoomDetail, studyRoomProblem } from "../utils/api";
+import {
+  getUserDifficulty,
+  studyRoomDetail,
+  studyRoomProblem,
+} from "../utils/api";
 
 const StudyRoomWrapper = styled.div`
   padding: 0px 0px 132px 0px;
@@ -193,6 +197,7 @@ const Ranking = styled.ol`
 interface userRankingProps {
   rank: number;
   username: string;
+  score: number;
 }
 
 interface statisticsProps {
@@ -216,8 +221,26 @@ interface studyRoomProblemProps {
   url: string;
 }
 
+interface userDifficultyProps {
+  category: string;
+  difficulty: number;
+}
+
+// 사용자 추천 문제를 가져오는 함수
+const fetchUserProblem = async (studyRoomId: string, token: string) => {
+  const userDifficulty: userDifficultyProps[] = await getUserDifficulty(token);
+  return studyRoomProblem({
+    input_correct_rate: 30,
+    input_difficulty: userDifficulty[2].difficulty,
+    input_category: ["다이나믹 프로그래밍"],
+    input_source: ["baekjoon"],
+    input_language: ["Python 3"],
+  });
+};
+
 export default function StudyRoom() {
   const { id } = useParams();
+  const token = localStorage.getItem("authMessage");
 
   const { data, isLoading, error } = useQuery<studyRoomDetailProps>({
     queryKey: ["studyroom", id],
@@ -233,7 +256,6 @@ export default function StudyRoom() {
     Greedy: 0,
   };
 
-  // 백엔드에서 받은 데이터를 기준으로 갱신
   const statistics = { ...defaultStatistics, ...data?.statistics };
 
   const {
@@ -252,11 +274,21 @@ export default function StudyRoom() {
       }),
   });
 
-  if (isLoading || problemLoading) {
+  const {
+    data: userProblemData,
+    isLoading: userProblemLoading,
+    error: userProblemError,
+  } = useQuery<studyRoomProblemProps>({
+    queryKey: ["userProblem", id],
+    queryFn: () => fetchUserProblem(id!, token!),
+    enabled: !!token, // 토큰이 준비되었을 때만 실행
+  });
+
+  if (isLoading || problemLoading || userProblemLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error || problemError) {
+  if (error || problemError || userProblemError) {
     return <div>Error occurred while fetching data.</div>;
   }
 
@@ -268,6 +300,7 @@ export default function StudyRoom() {
         bgColor={"rgba(13, 17, 22, 1)"}
       />
       <StudyRoomWrapper>
+        {/* 방 정보 섹션 */}
         <StudyRoomContainer>
           <StudyRoomImg src="/roomLogo.png" />
           <StudyRoomInfo>
@@ -303,12 +336,12 @@ export default function StudyRoom() {
           </StudyRoomInfo>
         </StudyRoomContainer>
 
-        {/* 코드 제출 섹션 시작 */}
+        {/* 문제 섹션 */}
         {problemData && (
           <TodayProblemContatiner>
-            <h2>오늘의 문제</h2>
+            <h2>방의 전체 문제</h2>
             <TodayProblemMessage>
-              오늘의 문제를 아직 풀지 않았어요!
+              방 문제 리스트를 확인하세요!
             </TodayProblemMessage>
             <SubmitComponent
               category_list={problemData.category_list}
@@ -320,22 +353,36 @@ export default function StudyRoom() {
           </TodayProblemContatiner>
         )}
 
-        {/* 스터디룸 통계 섹션 시작 */}
+        {userProblemData && (
+          <TodayProblemContatiner>
+            <h2>사용자 추천 문제</h2>
+            <TodayProblemMessage>
+              사용자 맞춤 문제를 확인해보세요!
+            </TodayProblemMessage>
+            <SubmitComponent
+              category_list={userProblemData.category_list}
+              name={userProblemData.name}
+              problem_id={userProblemData.problem_id}
+              url={userProblemData.url}
+              studyRoomId={id!}
+            />
+          </TodayProblemContatiner>
+        )}
+
+        {/* 통계 섹션 */}
         <StudyRoomStatistics>
           <RankingContainer>
             <StatisticsTitle>스터디원 랭킹</StatisticsTitle>
             <Ranking>
               {data?.ranking
-                .sort((a, b) => a.rank - b.rank) // rank를 기준으로 오름차순 정렬
+                .sort((a, b) => b.score - a.score)
                 .map((user, index) => (
                   <li key={index}>
-                    <span>{user.rank}위</span> <span>{user.username}</span>
+                    <span>{index + 1}위</span> <span>{user.username}</span>
                   </li>
                 ))}
             </Ranking>
           </RankingContainer>
-
-          {/* 차트 */}
           <RankingContainer>
             <StatisticsTitle>스터디룸 통계</StatisticsTitle>
             <Chart statistics={statistics} />

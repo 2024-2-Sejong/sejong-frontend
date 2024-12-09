@@ -223,3 +223,14 @@ export async function getUserInformation(token: string) {
     console.log(error);
   }
 }
+
+export async function getUserDifficulty(token: string) {
+  try {
+    const res = await axios.get(`/api/user/difficulty/get`, {
+      headers: { Authorization: `${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
