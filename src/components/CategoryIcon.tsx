@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div<{ $bgColor: string }>`
-  width: 88px;
+  width: 100px;
   height: 32px;
+  padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

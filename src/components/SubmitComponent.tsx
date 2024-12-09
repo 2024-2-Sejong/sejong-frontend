@@ -74,7 +74,6 @@ export default function SubmitComponent({
   const [isSolved, setIsSolved] = useState(false);
 
   useEffect(() => {
-    // 3초 후에 실행
     const timer = setTimeout(() => {
       const solved = JSON.parse(localStorage.getItem("solved") || "[]");
       setIsSolved(solved.includes(`${username}-${problem_id}`));
