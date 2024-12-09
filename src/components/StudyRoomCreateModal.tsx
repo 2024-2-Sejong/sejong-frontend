@@ -9,6 +9,8 @@ import { createPortal } from "react-dom";
 import styled from "styled-components";
 import CategoryIcon from "./CategoryIcon";
 import { useForm } from "react-hook-form"; // react-hook-form 사용
+import { createStudyRoom } from "../utils/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 // 핸들 인터페이스
 export interface StudyRoomCreateModalHandle {
@@ -158,6 +160,7 @@ const StudyRoomCreateModal = forwardRef<
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const { register, handleSubmit } = useForm<ModalFormProps>(); // react-hook-form 사용
 
@@ -186,15 +189,29 @@ const StudyRoomCreateModal = forwardRef<
   };
 
   // 폼 제출 시 호출되는 함수
-  const onSubmit = (data: ModalFormProps) => {
+  const onSubmit = async (data: ModalFormProps) => {
     if (!selectedCategory) {
       alert("카테고리를 선택해주세요.");
     } else {
-      console.log(data, selectedCategory);
-      // 폼 제출 로직 추가 (백엔드로 보내는 등)
-      if (dialogRef.current) {
-        dialogRef.current.close(); // 모달 닫기
-        toggleDropdown();
+      // createStudyRoom 함수 호출
+      try {
+        const token = localStorage.getItem("authMessage")!;
+        const response = await createStudyRoom({
+          studyRoomName: data.name,
+          studyRoomDescription: data.introduce,
+          category: [selectedCategory],
+          token,
+        });
+        console.log("스터디룸 생성 결과:", response);
+        queryClient.invalidateQueries({ queryKey: ["studyrooms"] });
+
+        // 모달 닫기
+        if (dialogRef.current) {
+          dialogRef.current.close();
+          toggleDropdown();
+        }
+      } catch (error) {
+        console.error("스터디룸 생성 중 오류 발생:", error);
       }
     }
   };
