@@ -224,6 +224,18 @@ export default function StudyRoom() {
     queryFn: () => studyRoomDetail(id!),
   });
 
+  const defaultStatistics = {
+    Graph: 0,
+    Implementation: 0,
+    DP: 0,
+    String: 0,
+    DataStructure: 0,
+    Greedy: 0,
+  };
+
+  // 백엔드에서 받은 데이터를 기준으로 갱신
+  const statistics = { ...defaultStatistics, ...data?.statistics };
+
   const {
     data: problemData,
     isLoading: problemLoading,
@@ -303,6 +315,7 @@ export default function StudyRoom() {
               name={problemData.name}
               problem_id={problemData.problem_id}
               url={problemData.url}
+              studyRoomId={id!}
             />
           </TodayProblemContatiner>
         )}
@@ -325,7 +338,7 @@ export default function StudyRoom() {
           {/* 차트 */}
           <RankingContainer>
             <StatisticsTitle>스터디룸 통계</StatisticsTitle>
-            <Chart />
+            <Chart statistics={statistics} />
           </RankingContainer>
         </StudyRoomStatistics>
       </StudyRoomWrapper>

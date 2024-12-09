@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import CreateButton from "./CreateButton";
 import CategoryIcon from "./CategoryIcon";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Wrapper = styled.div`
   border-radius: 20px;
@@ -52,6 +54,7 @@ interface submitComponentProps {
   name: string;
   problem_id: number;
   url: string;
+  studyRoomId: string;
 }
 
 export default function SubmitComponent({
@@ -59,7 +62,49 @@ export default function SubmitComponent({
   name,
   problem_id,
   url,
+  studyRoomId,
 }: submitComponentProps) {
+  const token = localStorage.getItem("authMessage");
+
+  const handleClick = async () => {
+    // 한글 카테고리를 영어로 변환하는 매핑 테이블
+    const categoryMapping: { [key: string]: string } = {
+      "다이나믹 프로그래밍": "DP",
+      구현: "Implementation",
+      "자료 구조": "DataStructure",
+      "그래프 이론": "Graph",
+      문자열: "String",
+      "그리디 알고리즘": "Greedy",
+    };
+
+    // category_list를 영어로 변환
+    const categoriesToSubmit = category_list
+      .filter((category) => categoryMapping[category]) // 매핑 가능한 카테고리만 필터링
+      .map((category) => ({
+        category: categoryMapping[category],
+        value: 1,
+      }));
+
+    try {
+      // 각각의 카테고리에 대해 Axios 요청
+      await Promise.all(
+        categoriesToSubmit.map(({ category, value }) =>
+          axios.post(
+            `/api/user/studyroom/${studyRoomId}/statistics`,
+            { category, value },
+            {
+              headers: { Authorization: `${token}` },
+            }
+          )
+        )
+      );
+      console.log("데이터 전송 성공");
+      window.location.href = `${url}`;
+    } catch (error) {
+      console.error("데이터 전송 실패:", error);
+    }
+  };
+
   return (
     <Wrapper>
       <img src="/character.png" alt="ocoteCharacter" />
@@ -79,9 +124,7 @@ export default function SubmitComponent({
           bgColor="var(--primary-color)"
           textColor="white"
           borderRadius={1}
-          handleClick={function (): void {
-            throw new Error("Function not implemented.");
-          }}
+          handleClick={handleClick}
         />
       </EndSection>
     </Wrapper>

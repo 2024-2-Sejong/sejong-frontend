@@ -56,13 +56,31 @@ ChartJS.register({
   },
 });
 
-export default function Chart() {
+interface chartProps {
+  statistics: {
+    Graph: number;
+    Implementation: number;
+    DP: number;
+    String: number;
+    DataStructure: number;
+    Greedy: number;
+  };
+}
+
+export default function Chart({ statistics }: chartProps) {
   const data: ChartData<"radar"> = {
     labels: ["그래프", "구현", "DP", "문자열", "자료구조", "그리디"],
     datasets: [
       {
         label: "성취도",
-        data: [5, 9, 6, 4, 2, 3],
+        data: [
+          statistics.Graph,
+          statistics.Implementation,
+          statistics.DP,
+          statistics.String,
+          statistics.DataStructure,
+          statistics.Greedy,
+        ],
         backgroundColor: "rgba(13, 17, 22, 0.2)", // 데이터 영역 배경색
         borderColor: "rgba(13, 17, 22, 1)",
         pointBackgroundColor: "rgba(13, 17, 22, 1)",
