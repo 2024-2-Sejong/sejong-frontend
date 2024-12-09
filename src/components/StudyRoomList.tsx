@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CreateButton from "./CreateButton";
 import CategoryIcon from "./CategoryIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -104,8 +104,11 @@ export default function StudyRoomList({
   ownerName,
   memberCount,
   studyRoomId,
+  member,
 }: studyRoomListProps) {
   const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     const token = localStorage.getItem("authMessage"); // 인증 토큰을 로컬 스토리지에서 가져옴
@@ -128,6 +131,7 @@ export default function StudyRoomList({
         queryClient.invalidateQueries({
           queryKey: ["studyroom", studyRoomId],
         });
+        navigate(`/study/room/${studyRoomId}`);
       } else {
         alert("스터디룸 참가에 실패했습니다.");
       }
@@ -178,7 +182,19 @@ export default function StudyRoomList({
             </StudyRoomRightheavyTitle>
           </StudyRoomRightLine>
         </div>
-        <Link to={`/study/room/${studyRoomId}`}>
+        {member ? (
+          // 이미 참가한 경우 "스터디 입장하기" 버튼을 보여줌
+          <Link to={`/study/room/${studyRoomId}`}>
+            <CreateButton
+              text={"스터디 입장하기"}
+              bgColor={"var(--primary-color)"}
+              textColor={"var(--white-color)"}
+              borderRadius={4}
+              handleClick={() => null}
+            />
+          </Link>
+        ) : (
+          // 아직 참가하지 않은 경우 "스터디 참가하기" 버튼을 보여줌
           <CreateButton
             text={"스터디 참가하기"}
             bgColor={"var(--primary-color)"}
@@ -186,7 +202,7 @@ export default function StudyRoomList({
             borderRadius={4}
             handleClick={handleClick}
           />
-        </Link>
+        )}
       </StudyRoomRightContainer>
     </Wrapper>
   );
